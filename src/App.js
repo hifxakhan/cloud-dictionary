@@ -22,7 +22,7 @@ function App() {
   // Future-ready function that can be swapped with AWS API Gateway call.
   const fetchDefinition = async (searchTerm) => {
   try {
-    const response = await fetch(`https://yke7af3i43.execute-api.us-east-1.amazonaws.com/$default/get-definition?term=${encodeURIComponent(searchTerm)}`);
+    const response = await fetch(`https://yke7af3i43.execute-api.us-east-1.amazonaws.com/get-definition?term=${encodeURIComponent(searchTerm)}`);
     const data = await response.json();
 
     if (response.ok) {
