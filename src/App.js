@@ -21,25 +21,20 @@ function App() {
 
   // Future-ready function that can be swapped with AWS API Gateway call.
   const fetchDefinition = async (searchTerm) => {
-    // TODO: replace with real API call (AWS API Gateway endpoint).
-    // Example future call:
-    // const response = await fetch(`https://your-api-id.execute-api.region.amazonaws.com/prod/define?term=${encodeURIComponent(searchTerm)}`);
-    // const data = await response.json();
-    // return data.definition;
+  try {
+    const response = await fetch(`https://yke7af3i43.execute-api.us-east-1.amazonaws.com/get-definition?term=${encodeURIComponent(searchTerm)}`);
+    const data = await response.json();
 
-    const dictionaryData = {
-      lambda: 'AWS Lambda is a serverless compute service that runs code in response to events and automatically manages the compute resources.',
-      ec2: 'Amazon EC2 provides scalable virtual servers in the cloud.',
-      s3: 'Amazon S3 is an object storage service designed for scalability, availability, and security.',
-      cloudfront: 'Amazon CloudFront is a content delivery network (CDN) service for fast global content distribution.',
-      dynamodb: 'Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance.'
-    };
-
-    await new Promise((resolve) => setTimeout(resolve, 700));
-
-    const key = searchTerm.trim().toLowerCase();
-    return dictionaryData[key] || null;
-  };
+    if (response.ok) {
+      return data.definition; // DynamoDB field returned by Lambda
+    } else {
+      return null; // Term not found or error
+    }
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+ };
 
   const handleSearch = async () => {
     const sanitizedTerm = term.trim();
